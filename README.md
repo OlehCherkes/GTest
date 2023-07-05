@@ -1,5 +1,7 @@
 # GTest
 unit tests
+# About
+![promo](/doc/promo.png)
 
 ## Google Test (GTest) installation on macOS
   - /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
