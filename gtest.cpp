@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 
-TEST(ExampleTest, Addition) {
-  EXPECT_EQ(2 + 2, 4);
+TEST(ExampleTest, Addition) {   // testcase name, test name
+  EXPECT_EQ(2 + 2, 4);          // val1 == val2
 }
 
 int main(int argc, char** argv) {
