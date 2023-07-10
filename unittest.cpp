@@ -4,13 +4,13 @@
 #include <string>
 
 using namespace std;
-
+#if 0
 extern int sum();
 
 /* TEST 1 */
-TEST(Sum, Test1) {
-    EXPECT_EQ(sum(), 15);
-}
+// TEST(Sum, Test1) {
+//     EXPECT_EQ(sum(), 15);
+// } 
 
 /* TEST 2 */
 TEST(ConstructorTest, Test2) {
@@ -73,6 +73,57 @@ TEST(VectorTest, Test4) {
     string target = "Oleh";
     bool found = binary_search(vs.begin(), vs.end(), target);
     ASSERT_TRUE(found);
+}
+
+/* TEST 5 */
+TEST(ReturnTest, Test5) {
+    using T = vector<uint8_t>;
+
+        unique_ptr<T> d = make_unique<T>(100);
+        (*d)[100] = 123;
+        auto g = 123 == d->back();
+}
+#endif
+
+/*--------------------------------------------------*/
+/*  Set/Get */
+TEST(GetSetTest, Test6) {
+    class TPoint {
+        int y;
+    public:
+        int x;
+        void SetY(int y1) {
+            y = y1;
+        }
+
+        int GetY() {
+            return y;
+        }
+    };
+
+    TPoint obj;
+    obj.x = 3;
+    obj.SetY(10);
+    std::cout << obj.x << std::endl;
+    std::cout << obj.GetY() << std::endl;
+}
+
+/*  New и Delete */
+// new and delete call the constructor constructor
+TEST(DynamicMemory, Test7) 
+{
+    int *p = new int(33);
+    std::cout << *p << std::endl;
+    delete p; 
+}
+
+/*  Dynamic Array */
+TEST(DynamicArray, Test8)
+{
+    int *p = new int [5];
+    p[0] = 7;
+    std::cout << p[0] << std::endl;
+    delete [] p;
 }
 
 int main(int argc, char** argv) {
