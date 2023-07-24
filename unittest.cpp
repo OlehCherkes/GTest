@@ -83,7 +83,6 @@ TEST(ReturnTest, Test5) {
         (*d)[100] = 123;
         auto g = 123 == d->back();
 }
-#endif
 
 /*--------------------------------------------------*/
 /*  Set/Get */
@@ -124,6 +123,148 @@ TEST(DynamicArray, Test8)
     p[0] = 7;
     std::cout << p[0] << std::endl;
     delete [] p;
+}
+
+/*  unique_ptr  */
+TEST(Unique_ptr, Test8)
+{
+    unique_ptr<int> p1(new int(25));
+    int *p2 = p1.get(); // get raw ptr
+    std::cout << *p1 <<std::endl;
+    std::cout << *p2 <<std::endl;
+
+    *p1 = 30;
+    std::cout << *p1 <<std::endl;
+    std::cout << *p2 <<std::endl;
+
+    p1.reset(); // free memory
+    if (p1 == nullptr)
+        std::cout << "p1 == nullptr" << std::endl;
+    else
+        std::cout << "p1 != nullptr" << std::endl;
+
+    unique_ptr<int> p3(new int(100));   //  Transfer rights
+    int *p4 = p3.release();
+    std::cout << *p4 << std::endl;
+
+    if (p3 == nullptr)
+        std::cout << "p3 == nullptr" << std::endl;
+    else
+        std::cout << "p3 != nullptr" << std::endl;
+
+    //  move
+    unique_ptr<int> p5(new int(50));
+    unique_ptr<int> p6 = std::move(p5);
+
+    if (p5 == nullptr)
+        std::cout << "p5 == nullptr" << std::endl;
+    else
+        std::cout << "p5 != nullptr" << std::endl;
+}
+
+/*  shared_ptr  */
+TEST(Shared_ptr, Test9)
+{
+    shared_ptr<float> pF1(new float(2.8f));
+    shared_ptr<float> pF2(new float(7.55f));
+
+    shared_ptr<float> pF3 = pF1;
+
+    std::cout << "pF1 => " << *pF1 << std::endl;
+    std::cout << "pF2 => " << *pF2 << std::endl;
+    std::cout << "pF3 => " << *pF3 << std::endl;
+
+    pF2 = pF3;
+
+    std::cout << "pF1 => " << *pF1 << std::endl;
+    std::cout << "pF2 => " << *pF2 << std::endl;
+    std::cout << "pF3 => " << *pF3 << std::endl;
+
+    //  swap
+    shared_ptr<int> p1(new int(33));
+    shared_ptr<int> p2(new int(77));
+
+    p1.swap(p2);
+    std::cout << *p1 << std::endl;
+    std::cout << *p1 << std::endl;
+
+    // get
+    int* pI = p1.get();
+    cout << *pI << std::endl;
+    cout << *p1 << std::endl;
+
+    //  reset
+    p2.reset();
+    if (p2 == nullptr)
+        std::cout << "p2 == nullptr" << std::endl;
+    else
+        std::cout << "p2 != nullptr" << std::endl;
+
+    // count shared_ptr
+    std::cout << p1.use_count() << std::endl;
+}
+
+/*  weak_ptr  */
+TEST(Weak_ptr, Test10)
+{
+    shared_ptr<int> pShared1(new int(25));
+    weak_ptr<int> pWeak = pShared1;
+    //  getting the number of copies of the pointers that point to the data
+    std::cout << "pWeak.use_count() = " << pWeak.use_count() << std::endl;  // 1
+
+    //weak_ptr -> shared_ptr
+    shared_ptr<int> pShared2 = pWeak.lock();
+    std::cout << "pWeak.use_count() = " << pWeak.use_count() << std::endl; // 2
+
+    std::cout << "*pShared2 = " << *pShared2 << std::endl;
+    // std::cout << *pWeak << std::endl;  // eeror
+
+    //  swap
+    weak_ptr<int> pw1;
+    weak_ptr<int> pw2;
+    shared_ptr<int> ps1(new int(38));
+    shared_ptr<int> ps2(new int(55));
+    pw1 = ps1; // pw1 => 38
+    pw2 = ps2; // pw2 => 55
+
+    pw1.swap(pw2);
+
+    std::cout << "pw1 => " << *pw1.lock().get() << std::endl; // pw1 => 55
+    std::cout << "pw2 => " << *pw2.lock().get() << std::endl; // pw2 => 38
+}
+
+#endif
+
+TEST(Array_pointer, Test11)
+{
+    int size = 5;
+    int *myArray = new int[size];
+    
+    for (int i = 0; i < size; ++i) {
+        myArray[i] = i * 2;
+
+        std::cout << myArray[i] << std::endl;
+    }
+
+    delete[] myArray;
+}
+
+TEST(Array_pointers, Test12)
+{
+    int size = 3;
+    int **myArray = new int *[size];
+   
+    for (int i = 0; i < size; ++i) {
+        myArray[i] = new int;
+        *(myArray[i]) = i * 10;
+
+        std::cout << *(myArray[i]) << std::endl;
+    }
+
+    for (int i = 0; i < size; ++i) {
+        delete myArray[i];
+    }
+    delete [] myArray;
 }
 
 int main(int argc, char** argv) {
