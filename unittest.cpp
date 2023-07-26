@@ -1,7 +1,10 @@
+#include "pch.h"
 #include <gtest/gtest.h>
 #include <algorithm>
 #include <random>
 #include <string>
+#include <bitset>
+#include <vector>
 
 using namespace std;
 #if 0
@@ -265,6 +268,56 @@ TEST(Array_pointers, Test12)
         delete myArray[i];
     }
     delete [] myArray;
+}
+
+TEST(Vector, Test13)
+{
+    std::vector<int> numbers = { 10, 8, 6, 4, 2, 1 };
+    numbers[5] = 7;
+    numbers.at(8) = 4;      // with range check
+    numbers.push_back(10);  // add new element
+    numbers.size();         // return size of vector
+    numbers.capacity();     // capacity of vector
+    numbers.resize(10);     // resize vector
+    //numbers.reserve(128);   // reserve vector for 128 elements
+    //numbers.clear();        // clear vector
+
+    std::sort(numbers.begin(), numbers.end());                      // sort 0 - ~
+    std::sort(numbers.begin(), numbers.end(), std::greater<int>()); // sort ~ - 0
+    std::reverse(numbers.begin(), numbers.end());                   // reverse vector
+
+    // shuffle vector elements
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::shuffle(numbers.begin(), numbers.end(), gen);
+
+    // binary search
+    int target = 8;
+    bool found = binary_search(numbers.begin(), numbers.end(), target); // must be sorted
+
+    std::cout << "VECTOR: " << numbers[2] << std::endl;
+}
+
+TEST(Bitset, Test14)
+{
+    unsigned int number = 123;
+
+    //  binary view
+    std::bitset<8> binary(number);
+    std::cout << "DEC: " << number << ", BIN: " << binary << std::endl;
+
+    binary.set(0);      // first bit = 1
+    binary.set(2, 1);   // 2 bit = 1
+    binary.set(4);      // 4 bit = 1
+    binary.flip(0);     // invert bit
+    binary.size();      // size of binary
+    binary.test(4);     // return true if 5 bit == 1
+    binary.count();     // return count of 1
+    binary.any();       // return true if even though 1 bit is set
+    binary.to_string(); // binary to string
+    binary.reset();     // reset bit in 0 or full binary
+
+    std::cout << "BIN: " << binary << std::endl;
 }
 
 int main(int argc, char** argv) {
