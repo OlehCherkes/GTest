@@ -267,6 +267,42 @@ TEST(Array_pointers, Test12)
     delete [] myArray;
 }
 
+TEST(SOO, Test15)
+{
+    class Point {
+    private:
+        float x, y;
+        
+        // if isOnStack = true, then the data is stored on the stack, otherwise on the heap
+        bool isOnStack;
+
+    public:
+        // Constructor for a point on the stack
+        Point(float x, float y) : x(x), y(y), isOnStack(true) {}
+
+        // Constructor for point on the heap
+        Point() : x(0), y(0), isOnStack(false) {}
+
+        void print() {
+            std::cout << "X: " << x << ", Y: " << y << std::endl;
+        }
+    };
+
+    // Create a pointer on the stack
+    Point p1(1.5f, 2.5f);
+
+    // Create a point on the heap (common memory allocation)
+    Point *p2 = new Point(3.0f, 4.0f);
+
+    std::cout << "Point on stack: ";
+    p1.print();
+
+    std::cout << "Point on heap: ";
+    p2->print();
+
+    delete p2;
+}
+
 int main(int argc, char** argv) {
     testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();
