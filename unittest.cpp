@@ -5,6 +5,8 @@
 #include <string>
 #include <bitset>
 #include <vector>
+#include <future>
+#include <thread>
 
 using namespace std;
 #if 0
@@ -318,6 +320,38 @@ TEST(Bitset, Test14)
     binary.reset();     // reset bit in 0 or full binary
 
     std::cout << "BIN: " << binary << std::endl;
+}
+
+#if 0
+TEST(Reverse_iterator, Test15)
+{
+    std::vector<int> numbers = { 1, 2, 3, 4, 5 };
+    std::vector<int>::reverse_iterator rit;
+
+    for (rit = numbers.rbegin(); rit != numbers.rend(); ++rit) {
+        std::cout << *rit << " ";
+    }
+
+    std::cout << std::endl;
+}
+#endif
+
+//----------------  std::future --------------------------//
+int addNumbers(int a, int b)
+{
+    std::this_thread::sleep_for(std::chrono::seconds(2));
+    return a + b;
+}
+
+TEST(Future, Test16)
+{
+    std::future<int> result = std::async(addNumbers, 5, 10);
+
+    std::cout << result.valid() << std::endl;       // checks if an object is valid
+    // std::cout << result.wait_for() << std::endl; // allows you to wait for a result 
+
+    int sum = result.get();
+    std::cout << "Sum: " << sum << std::endl;
 }
 
 int main(int argc, char** argv) {
