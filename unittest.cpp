@@ -238,8 +238,6 @@ TEST(Weak_ptr, Test10)
     std::cout << "pw2 => " << *pw2.lock().get() << std::endl; // pw2 => 38
 }
 
-#endif
-
 TEST(Array_pointer, Test11)
 {
     int size = 5;
@@ -322,7 +320,7 @@ TEST(Bitset, Test14)
     std::cout << "BIN: " << binary << std::endl;
 }
 
-#if 0
+
 TEST(Reverse_iterator, Test15)
 {
     std::vector<int> numbers = { 1, 2, 3, 4, 5 };
@@ -334,7 +332,7 @@ TEST(Reverse_iterator, Test15)
 
     std::cout << std::endl;
 }
-#endif
+
 
 //----------------  std::future --------------------------//
 int addNumbers(int a, int b)
@@ -353,8 +351,55 @@ TEST(Future, Test16)
     int sum = result.get();
     std::cout << "Sum: " << sum << std::endl;
 }
+#endif
+
+TEST(Сopy_constructor, Test17)
+{
+    class MyClass {
+    private:
+        int value;
+        std::string text;
+
+    public:
+
+        // default constructor
+        MyClass() : value(0), text("Oleh") {}
+
+        // Constructor with parameters
+        MyClass(int val, const std::string& txt) : value(val), text(txt) {}
+
+        // copy constructor
+        explicit MyClass(const MyClass& other) : value(other.value), text(other.text) {}
+
+
+        void display() const {
+            std::cout << "Value: " << value << ", Text: " << text << std::endl;
+        }
+
+        void set(int val) {
+            value = val;
+        }
+
+        int GetY() {
+            return value;
+        }
+    };
+
+    MyClass obj1;
+    MyClass obj2(obj1);
+
+    obj2.set(10);
+
+    obj1.display();
+    obj2.display();
+}
 
 int main(int argc, char** argv) {
     testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();
 }
+
+
+//        std::initializer_list
+//operator =() {}
+//constexpr unsigned char b = 0x80;
