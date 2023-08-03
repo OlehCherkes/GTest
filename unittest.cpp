@@ -394,6 +394,73 @@ TEST(Сopy_constructor, Test17)
     obj2.display();
 }
 
+
+void printValues(std::initializer_list<int> values) {
+    std::cout << "Values: ";
+    for (int value : values) {
+        std::cout << value << " ";
+    }
+    std::cout << std::endl;
+}
+
+TEST(Initializer_list, Test18)
+{
+    printValues({ 10, 20, 30 });
+
+    class MyClass {
+    public:
+        MyClass(std::initializer_list<int> values) {
+            std::cout << "MyClass Constructor Called with Values: ";
+            for (int value : values) {
+                std::cout << value << " ";
+            }
+            std::cout << std::endl;
+        }
+    };
+
+    MyClass obj1 = { 100, 200, 300 };
+}
+
+TEST(Operator, Test19)
+{
+    class MyClass {
+    private:
+        int value;
+        std::string text;
+
+    public:
+        MyClass() : value(0), text("") {}
+
+        MyClass(int val, const std::string& txt) : value(val), text(txt) {}
+
+        MyClass& operator=(const MyClass& other) {
+            if (this == &other) {
+                return *this;
+            }
+
+            this->value = other.value;
+            this->text = other.text;
+
+            return *this;
+        }
+
+        void display() const {
+            std::cout << "Value: " << value << ", Text: " << text << std::endl;
+        }
+    };
+
+    MyClass obj1(42, "Hello");
+    MyClass obj2;
+
+    obj2 = obj1;
+
+    std::cout << "Object 1: ";
+    obj1.display();
+
+    std::cout << "Object 2: ";
+    obj2.display();
+}
+
 int main(int argc, char** argv) {
     testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();
