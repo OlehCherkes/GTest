@@ -2,6 +2,11 @@
 #include <algorithm>
 #include <random>
 #include <string>
+#include <bitset>
+#include <vector>
+#include <future>
+#include <thread>
+//#include "soo.h"
 
 using namespace std;
 #if 0
@@ -233,8 +238,6 @@ TEST(Weak_ptr, Test10)
     std::cout << "pw2 => " << *pw2.lock().get() << std::endl; // pw2 => 38
 }
 
-#endif
-
 TEST(Array_pointer, Test11)
 {
     int size = 5;
@@ -267,6 +270,8 @@ TEST(Array_pointers, Test12)
     delete [] myArray;
 }
 
+#endif
+
 TEST(SOO, Test15)
 {
     class Point {
@@ -284,7 +289,7 @@ TEST(SOO, Test15)
         Point() : x(0), y(0), isOnStack(false) {}
 
         void print() {
-            std::cout << "X: " << x << ", Y: " << y << std::endl;
+            std::cout << "X: " << x << ", Y: " << y << " isOnStack: " << isOnStack << std::endl;
         }
     };
 
@@ -292,7 +297,7 @@ TEST(SOO, Test15)
     Point p1(1.5f, 2.5f);
 
     // Create a point on the heap (common memory allocation)
-    Point *p2 = new Point(3.0f, 4.0f);
+    Point *p2 = new Point;
 
     std::cout << "Point on stack: ";
     p1.print();
@@ -307,3 +312,8 @@ int main(int argc, char** argv) {
     testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();
 }
+
+
+//        std::initializer_list
+//operator =() {}
+//constexpr unsigned char b = 0x80;
