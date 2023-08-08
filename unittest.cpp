@@ -516,10 +516,31 @@ TEST(SOO, Test22)
   delete p2;
 }
 
-TEST(Constexpr, Test22)
+TEST(Constexpr, Test23)
 {
   constexpr unsigned char b = 0x80;
   std::cout << "Value of b: " << static_cast<int>(b) << std::endl;
+}
+
+//--------------------------- POW --------------------//
+int pow(int base, int exp)
+{
+  int result = 1;
+  while (exp)
+  {
+    if (exp & 1)
+      result *= base;
+    exp >>= 1;
+    base *= base;
+  }
+
+  return result;
+}
+
+TEST(Pow, Test24)
+{
+  uint32_t res = pow(3,7);
+  std::cout << "POW: " << res << std::endl;
 }
 
 int main(int argc, char** argv) {
