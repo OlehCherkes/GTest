@@ -547,8 +547,3 @@ int main(int argc, char** argv) {
   testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();
 }
-
-
-//        std::initializer_list
-//operator =() {}
-//constexpr unsigned char b = 0x80;
