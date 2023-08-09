@@ -308,12 +308,58 @@ TEST(SOO, Test15)
     delete p2;
 }
 
+//----------- default setting / function overload ----------/
+void def(int a = 5, char b = '@')
+{
+    std::cout << a << ' '<< b << std::endl;
+}
+
+void over()
+{
+    std::cout << "First" << std::endl;
+}
+
+void over(int a)
+{
+    std::cout << "Second " << a << std::endl;
+}
+
+TEST(Default, Test16)
+{
+    def(2);
+    over();
+}
+
+//---------- constructor of copy ------------/
+class myClass 
+{
+    public:
+    myClass()
+    {
+        std::cout << "default constructor" << std::endl;
+    }
+
+    myClass(const myClass &p)
+    {
+        std::cout << "constructor of copy" << std::endl;
+    }
+};
+
+void proc(myClass x)
+{
+    std::cout << "proc" << std::endl;
+}
+
+TEST(Copy_constructor, Test17)
+{
+    myClass b;
+    proc(b);
+
+    myClass c(b);
+}
+
+
 int main(int argc, char** argv) {
     testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();
 }
-
-
-//        std::initializer_list
-//operator =() {}
-//constexpr unsigned char b = 0x80;
