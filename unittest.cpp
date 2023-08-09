@@ -1,4 +1,4 @@
-#include "pch.h"
+//#include "pch.h"
 #include <gtest/gtest.h>
 #include <algorithm>
 #include <random>
@@ -591,6 +591,33 @@ TEST(Copy_constructor, Test26)
     proc(b);
 
     myClass c(b);
+}
+
+//------------- operator overload -------/
+struct TPoint
+{
+  int x;
+  int y;
+
+  // TPoint operator- () { TPOint tmp = {-x, -y}; return *this; };
+  // TPoint& operator++ () { ++x; ++y; return *this; };
+
+  TPoint& operator= (int i) { x = y = i; return *this; }
+};
+
+TPoint operator- (TPoint pnt) { pnt.x = -pnt.x; pnt.y = -pnt.y; return pnt; };
+TPoint& operator++ (TPoint &pnt) { ++pnt.x; ++pnt.y; return pnt; }
+
+TPoint operator+ (TPoint pnt, int i) { TPoint tmp {pnt.x + i, pnt.y + i}; return tmp; }
+TPoint operator+ (int i, TPoint pnt) { return pnt + i; };
+
+TEST(Operator_overload, Test27)
+{
+  TPoint p = {4, 5};
+  p = -p;
+  ++p;
+  std::cout << p.x << std::endl;
+  std::cout << p.y << std::endl;
 }
 
 int main(int argc, char** argv) {
