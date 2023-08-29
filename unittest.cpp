@@ -352,7 +352,6 @@ TEST(Future, Test16)
   int sum = result.get();
   std::cout << "Sum: " << sum << std::endl;
 }
-#endif
 
 TEST(Сopy_constructor, Test17)
 {
@@ -464,12 +463,12 @@ TEST(Operator, Test19)
 
 TEST(Auto, Test20)
 {
-  //auto sum(int a, int b) -> int;
+  auto sum(int a, int b) -> int;
 
-  //auto sum(int a, int b) -> int;
-  //{
-  //  return a + b;
-  //}
+  auto sum(int a, int b) -> int;
+  {
+   return a + b;
+  }
 }
 
 // type of value
@@ -619,6 +618,133 @@ TEST(Operator_overload, Test27)
   std::cout << p.x << std::endl;
   std::cout << p.y << std::endl;
 }
+
+TEST(Inheritance, Test28)
+{
+  struct T1 {
+    int x;
+    int GetX() { return x; }
+    void SetX(int a) { x = a; }
+    void proc() { std::cout << "T1" << std::endl; }
+  };
+
+  struct T2 : T1 {
+    using T1::proc;
+    int y;
+  };
+
+  T2 obj;
+  obj.y = 10;
+  obj.SetX(77);
+
+  std::cout << obj.y << std::endl;
+  std::cout << obj.GetX() << std::endl;
+  obj.proc();
+}
+#endif
+
+TEST(Access_modifier, Test29)
+{
+  struct T1
+  {
+    int getX() { return x; }
+    public:
+    //private:
+    //protected:
+    int x;
+  };
+
+  struct T2 : T1
+  {
+    void sum() { x = 3; }
+  };
+
+  T2 obj;
+  obj.x = 10;
+  std::cout << obj.getX() << std::endl;
+
+    struct T3
+  {
+    int x;
+  };
+
+  struct T4 : private T3  // private access
+  {
+    void sum() { x = 3; }
+  };
+}
+
+TEST(Access_modifier2, Test30)
+{
+  struct T1
+  {
+    int x;
+  };
+
+  struct T2 : public T1
+  {
+    int x;
+  };
+
+  T2 obj;
+  obj.x = 3;
+  obj.T1::x = 10;
+
+  std::cout << obj.x << std::endl;
+  std::cout << obj.T1::x << std::endl;
+}
+
+TEST(Virtual, Test31)
+{
+  struct T1
+  {
+   virtual void f() { std::cout << "T1" << std::endl; }
+  };
+
+  struct T2 : public T1
+  {
+    void f() override { std::cout << "T2" << std::endl; }
+  };
+
+  T2 b;
+
+  T1 *p = &b;
+  p->f();
+}
+
+TEST(Abstract, Test32)
+{
+  struct T1
+  {
+   virtual void f() = 0;
+  };
+
+  struct T2 : public T1
+  {
+    void f() override final { std::cout << "T2" << std::endl; }
+  };
+
+  T2 b;
+
+  T1 *p = &b;
+  p->f();
+}
+
+TEST(Constructor_copy, Test33)
+{
+  struct T1
+  {
+    T1(int x) { std::cout << "T1" << std::endl; }
+  };
+
+  struct T2 : T1
+  {
+    T2(int k) : T1(k) { std::cout << "T2" << std::endl; }
+  };
+
+  T2 a(5);
+}
+
 
 int main(int argc, char** argv) {
   testing::InitGoogleTest(&argc, argv);
