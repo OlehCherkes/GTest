@@ -1,4 +1,5 @@
 //#include "pch.h"
+#include <iostream>
 #include <gtest/gtest.h>
 #include <algorithm>
 #include <random>
@@ -743,6 +744,34 @@ TEST(Constructor_copy, Test33)
   };
 
   T2 a(5);
+}
+
+TEST(Constructor_copy, Test34)
+{
+  int num = 4;
+
+  vector<int> arr = {5, 2, 1, 7, 3, 4, 6, 8};
+  sort(arr.begin(), arr.end());
+
+  int left = 0;
+  int right = arr.size() - 1;
+  int midle;
+  bool isFound = false;
+
+  // if (binary_search(arr, num) != -1)
+  //   isFound = true;
+
+  while (left <= right)
+  {
+    midle = (left + right)/2;
+    if (arr[midle] == num)
+      isFound = true;
+
+    if (arr[midle] < num)
+      left = midle + 1;
+    else
+      right = midle - 1;
+  }
 }
 
 
